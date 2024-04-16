@@ -55,6 +55,10 @@ cargo build
 cargo run
 ```
 
+This is after build and run:
+
+![image](https://github.com/vuilae/bl-sorting/assets/114561182/d0fa5cda-2c38-47a2-9eff-f4a48a057d28)
+
 
 
 ```toml
