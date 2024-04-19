@@ -38,10 +38,7 @@ pub fn selection_sort<T: Ord>(arr: &mut [T]) {
 }
 
 // Insertion sort algorithm
-pub fn insertion_sort<T>(arr: &mut [T])
-where
-    T: PartialOrd,
-{
+pub fn insertion_sort(arr: &mut [f64]) {
     for i in 1..arr.len() {
         let mut j = i;
         while j > 0 && arr[j - 1] > arr[j] {
