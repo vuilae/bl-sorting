@@ -1,4 +1,3 @@
-#![feature(generic_arg_constraints)] // Enable generic argument constraints (optional)
 
 use std::cmp::Ord;
 
