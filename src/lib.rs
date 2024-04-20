@@ -1,7 +1,7 @@
 // Define a module for sorting algorithms
 pub mod sorting {
     // Quick sort algorithm
-    pub fn quick_sort<T: Ord>(arr: &mut [T]) {
+    pub fn quick_sort<T: PartialOrd>(arr: &mut [T]) {
         if arr.len() <= 1 {
             return;
         }
@@ -10,7 +10,7 @@ pub mod sorting {
         quick_sort(&mut arr[pivot_index + 1..]);
     }
 
-    fn partition<T: Ord>(arr: &mut [T]) -> usize {
+    fn partition<T: PartialOrd>(arr: &mut [T]) -> usize {
         let pivot_index = arr.len() / 2;
         arr.swap(pivot_index, arr.len() - 1);
         let mut i = 0;
@@ -51,7 +51,7 @@ pub mod sorting {
     }
 
     // Merge sort algorithm
-    pub fn merge_sort<T: Ord + Clone>(arr: &mut [T]) {
+    pub fn merge_sort<T: PartialOrd + Clone>(arr: &mut [T]) {
         if arr.len() <= 1 {
             return;
         }
