@@ -88,3 +88,16 @@ pub fn merge_sort<T: Ord + Clone>(arr: &mut [T]) {
         k += 1;
     }
 }
+
+
+// Define a module for sorting utility functions
+pub mod utils {
+    // Function to perform sorting based on given algorithm
+    pub fn sort<T, F>(arr: &mut [T], algorithm: F)
+        where
+            T: Ord,
+            F: FnOnce(&mut [T]),
+    {
+        algorithm(arr);
+    }
+}
