@@ -96,7 +96,7 @@ pub mod utils {
     // Function to perform sorting based on given algorithm
     pub fn sort<T, F>(arr: &mut [T], algorithm: F)
         where
-            T: Ord,
+            T: PartialOrd,
             F: FnOnce(&mut [T]),
     {
         algorithm(arr);
