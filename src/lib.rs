@@ -1,3 +1,4 @@
+
 // Quick sort algorithm
 pub fn quick_sort<T: Ord>(arr: &mut [T]) {
     if arr.len() <= 1 {
@@ -48,7 +49,6 @@ pub fn insertion_sort(arr: &mut [f64]) {
     }
 }
 
-
 // Merge sort algorithm
 pub fn merge_sort<T: Ord + Clone>(arr: &mut [T]) {
     if arr.len() <= 1 {
@@ -86,17 +86,5 @@ pub fn merge_sort<T: Ord + Clone>(arr: &mut [T]) {
         arr[k] = right[j].clone();
         j += 1;
         k += 1;
-    }
-}
-
-// Define a module for sorting utility functions
-pub mod utils {
-    // Function to perform sorting based on given algorithm
-    pub fn sort<T, F>(arr: &mut [T], algorithm: F)
-        where
-            T: Ord,
-            F: FnOnce(&mut [T]),
-    {
-        algorithm(arr);
     }
 }
