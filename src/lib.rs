@@ -1,103 +1,109 @@
+#![feature(generic_arg_constraints)] // Enable generic argument constraints (optional)
 
-// Quick sort algorithm
-pub fn quick_sort<T: Ord>(arr: &mut [T]) {
-    if arr.len() <= 1 {
-        return;
+use std::cmp::Ord;
+
+
+pub fn quick_sort<T>(mut data: Vec<T>) -> Vec<T>
+where
+    T: Ord + Clone,
+{
+    if data.len() <= 1 {
+        return data;
     }
-    let pivot_index = partition(arr);
-    quick_sort(&mut arr[..pivot_index]);
-    quick_sort(&mut arr[pivot_index + 1..]);
+
+    let pivot_index = partition(&mut data);
+    let (left, right) = data.split_at(pivot_index);
+
+    let mut left_sorted = quick_sort(left.to_vec());
+    left_sorted.append(&mut quick_sort(right.to_vec()));
+
+    left_sorted
 }
 
-fn partition<T: Ord>(arr: &mut [T]) -> usize {
-    let pivot_index = arr.len() / 2;
-    arr.swap(pivot_index, arr.len() - 1);
-    let mut i = 0;
-    for j in 0..arr.len() - 1 {
-        if arr[j] <= arr[arr.len() - 1] {
-            arr.swap(i, j);
-            i += 1;
-        }
-    }
-    arr.swap(i, arr.len() - 1);
-    i
-}
-
-// Selection sort algorithm
-pub fn selection_sort<T: Ord>(arr: &mut [T]) {
-    for i in 0..arr.len() {
+pub fn selection_sort<T>(mut data: Vec<T>) -> Vec<T>
+where
+    T: Ord + Clone,
+{
+    for i in 0..data.len() - 1 {
         let mut min_index = i;
-        for j in i + 1..arr.len() {
-            if arr[j] < arr[min_index] {
+        for j in i + 1..data.len() {
+            if data[j] < data[min_index] {
                 min_index = j;
             }
         }
-        if i != min_index {
-            arr.swap(i, min_index);
-        }
+        data.swap(i, min_index);
     }
+
+    data
 }
 
-// Insertion sort algorithm
-pub fn insertion_sort(arr: &mut [f64]) {
-    for i in 1..arr.len() {
-        let mut j = i;
-        while j > 0 && arr[j - 1] > arr[j] {
-            arr.swap(j - 1, j);
+pub fn insertion_sort<T>(mut data: Vec<T>) -> Vec<T>
+where
+    T: Ord + Clone,
+{
+    for i in 1..data.len() {
+        let mut key = data[i].clone();
+        let mut j = i - 1;
+
+        while j >= 0 && data[j] > key {
+            data[j + 1] = data[j].clone();
             j -= 1;
         }
+
+        data[j + 1] = key;
     }
+
+    data
 }
 
-// Merge sort algorithm
-pub fn merge_sort<T: Ord + Clone>(arr: &mut [T]) {
-    if arr.len() <= 1 {
-        return;
+pub fn merge_sort<T>(mut data: Vec<T>) -> Vec<T>
+where
+    T: Ord + Clone,
+{
+    if data.len() <= 1 {
+        return data;
     }
-    let mid = arr.len() / 2;
-    let mut left = arr[..mid].to_vec();
-    let mut right = arr[mid..].to_vec();
 
-    merge_sort(&mut left);
-    merge_sort(&mut right);
+    let mid = data.len() / 2;
+    let left = merge_sort(data[..mid].to_vec());
+    let right = merge_sort(data[mid..].to_vec());
 
-    let mut i = 0;
-    let mut j = 0;
-    let mut k = 0;
+    merge(left, right)
+}
 
-    while i < left.len() && j < right.len() {
-        if left[i] < right[j] {
-            arr[k] = left[i].clone();
-            i += 1;
+fn merge<T>(mut left: Vec<T>, mut right: Vec<T>) -> Vec<T>
+where
+    T: Ord + Clone,
+{
+    let mut result = Vec::new();
+    while !left.is_empty() && !right.is_empty() {
+        if left[0] < right[0] {
+            result.push(left.remove(0));
         } else {
-            arr[k] = right[j].clone();
-            j += 1;
+            result.push(right.remove(0));
         }
-        k += 1;
     }
 
-    while i < left.len() {
-        arr[k] = left[i].clone();
-        i += 1;
-        k += 1;
-    }
+    result.append(&mut left);
+    result.append(&mut right);
 
-    while j < right.len() {
-        arr[k] = right[j].clone();
-        j += 1;
-        k += 1;
-    }
+    result
 }
 
+fn partition<T>(data: &mut Vec<T>) -> usize
+where
+    T: Ord + Clone,
+{
+    let pivot = data.last().unwrap().clone();
+    let mut i = 0;
 
-// Define a module for sorting utility functions
-pub mod utils {
-    // Function to perform sorting based on given algorithm
-    pub fn sort<T, F>(arr: &mut [T], algorithm: F)
-        where
-            T: Ord,
-            F: FnOnce(&mut [T]),
-    {
-        algorithm(arr);
+    for j in 0..data.len() - 1 {
+        if data[j] <= pivot {
+            data.swap(i, j);
+            i += 1;
+        }
     }
+
+    data.swap(i, data.len() - 1);
+    i
 }
