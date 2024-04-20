@@ -38,7 +38,9 @@ pub fn selection_sort<T: Ord>(arr: &mut [T]) {
 }
 
 // Insertion sort algorithm
-pub fn insertion_sort(arr: &mut [f64]) {
+pub fn sort<T: Ord>(arr: &mut [T], algorithm: F)
+  where F: FnOnce(&mut [T]),
+{
     for i in 1..arr.len() {
         let mut j = i;
         while j > 0 && arr[j - 1] > arr[j] {
