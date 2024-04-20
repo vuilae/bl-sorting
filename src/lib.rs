@@ -25,7 +25,7 @@ pub mod sorting {
     }
 
     // Selection sort algorithm
-    pub fn selection_sort<T: Ord>(arr: &mut [T]) {
+    pub fn selection_sort<T: PartialOrd>(arr: &mut [T]) {
         for i in 0..arr.len() {
             let mut min_index = i;
             for j in i + 1..arr.len() {
